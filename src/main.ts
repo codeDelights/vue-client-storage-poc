@@ -4,6 +4,9 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 
+import { createDB } from './storage/nanosql';
+createDB();
+
 Vue.config.productionTip = false
 
 new Vue({
