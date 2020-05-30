@@ -1,12 +1,13 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/ls">LocalStoarage</router-link> |
+      <router-link to="/">Home</router-link>|
+      <router-link to="/ls">LocalStoarage</router-link>|
       <!-- <router-link to="/idb">IndexedDB</router-link> | -->
-      <router-link to="/localforage">LocalForage</router-link> |
-      <router-link to="/nanosql">NanoSQL</router-link> |
-      <router-link to="/lokijs">LokiJS</router-link>
+      <router-link to="/localforage">LocalForage</router-link>|
+      <router-link to="/nanosql">NanoSQL</router-link>|
+      <router-link to="/lokijs">LokiJS</router-link>|
+      <router-link to="/pouch">PouchDB</router-link>
     </div>
     <router-view />
   </div>

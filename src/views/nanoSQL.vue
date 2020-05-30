@@ -1,4 +1,4 @@
-p<template>
+<template>
   <div class="localStroage">
     <h1>NanoSQL</h1>
     <div class="well save-string">
