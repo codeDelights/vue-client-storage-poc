@@ -50,7 +50,7 @@ export default Vue.extend({
   },
   methods: {
     addItem() {
-      this.note._id = new Date().getTime().toString();
+      this.note["_id"] = new Date().getTime().toString();
       this.note.createdAt = new Date().toJSON();
       pouchInstance.addNote(this.note).then((note: any) => {
         this.getAllItems();
@@ -59,8 +59,20 @@ export default Vue.extend({
     getAllItems() {
       pouchInstance.getNotes().then((notes: any) => {
         this.notes = notes.rows;
-        this.note = { _id: "", title: "", content: "", createdAt: "" };
-        this.editNote = { _id: "", title: "", content: "", createdAt: "" };
+        this.note = {
+          _id: "",
+          title: "",
+          content: "",
+          createdAt: "",
+          noteId: ""
+        };
+        this.editNote = {
+          _id: "",
+          title: "",
+          content: "",
+          createdAt: "",
+          noteId: ""
+        };
         console.log(this.notes);
       });
     },

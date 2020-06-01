@@ -1,75 +1,41 @@
 <template>
   <div class="localStroage">
-    <h1>localStorage / WebStorage</h1>
-    <div class="well save-string">
-      <h3 class="in-title">Save a Value</h3>
-      <label for="key">Key</label>
-      <input type="text" id="key" v-model="singleKey">
-      <label for="value">Value</label>
-      <input type="text" id="value" v-model="singleValue">
-      <button @click="saveString">Save</button>
-      <hr>
-      <h3 class="in-title">Get a Value</h3>
-      <label for="qkey">Key</label>
-      <input type="text" id="qkey" v-model="singleQKey">
-      <button @click="getString">Get</button>
-      <label for="value">Value :</label>
-      <span>{{singleQValue}}</span>
-      <hr>
-      <h3 class="in-title">Delete a Value</h3>
-      <label for="dkey">Key</label>
-      <input type="text" id="dkey" v-model="singleDKey">
-      <button @click="clearString">Delete</button>
-      <span>{{resultMessage}}</span>
-      <hr>
-      <h3 class="in-title">Delete All</h3>
-      <button @click="clearAll">Delete All</button>
-    </div>
-    <hr>
-    <div class="well">
-      <ul v-for="(item, index) in localItems" :key="index">
-        <li>{{item[0] + ' => ' + item[1]}}</li>
-      </ul>
-    </div>
+    <h2 class="text-center title">Welcome to MyNotes</h2>
+    <NotesHolder :notes="lsNotes" @onAddNoteFn="lsAddNote" />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import * as lst from '../storage/localstorage';
-
+import Vue from "vue";
+import * as lst from "../storage/localstorage";
+import NotesHolder from "../components/NotesHolder.vue";
+import { Note } from "@/core/models/Note";
 export default Vue.extend({
+  components: {
+    NotesHolder
+  },
   data() {
     return {
-      singleKey: '',
-      singleValue: '',
-      singleQKey: '',
-      singleQValue: '',
-      singleDKey: '',
-      resultMessage: '',
-      localItems: []
-    }
+      lsKey: "lsnotes",
+      lsNotes: [] as Note[]
+    };
   },
   created() {
+    lst.createVar(this.lsKey);
     this.refresh();
   },
   methods: {
-    saveString() {
-      const result = lst.addItem(this.singleKey, this.singleValue);
-      this.singleValue = '';
-      this.singleKey = '';
-      console.log(result);
+    lsAddNote(note: Note) {
+      const allNotes = [...lst.getItem(this.lsKey)];
+      allNotes.push(note);
+      const toPush = JSON.stringify(allNotes);
+      lst.addItem(this.lsKey, toPush);
       this.refresh();
     },
     getString() {
-      this.singleQValue = lst.getItem(this.singleQKey);
       this.refresh();
     },
     clearString() {
-      lst.deleteItem(this.singleDKey);
-      this.singleDKey = '';
-      this.resultMessage = 'Deleted';
-      setTimeout(() => this.resultMessage = '', 1500);
       this.refresh();
     },
     clearAll() {
@@ -77,33 +43,31 @@ export default Vue.extend({
       this.refresh();
     },
     refresh() {
-      console.log(Object.entries(localStorage));
-      this.localItems = (Object.entries(localStorage) as any);
-      /* let array = Object.entries(localStorage);
-      let obj: any = {};
-      array.forEach(item => {
-        obj[item[0]] = obj[item[1]];
-      });
-      console.log(obj); */
+      // const allNotes = JSON.parse(lst.getItem(this.lsKey));
+      this.lsNotes = lst.getItem(this.lsKey);
     }
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>
-  .well {
-    background-color: #ccc;
-    border: 1px solid #aaa;
-    padding: 20px;
-    height: auto;
-    width: 90%;
-    margin: 0 auto;
-    max-width: 500px;
-    text-align: left;
+.well {
+  background-color: #ccc;
+  border: 1px solid #aaa;
+  padding: 20px;
+  height: auto;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 500px;
+  text-align: left;
 
-    .in-title {
-      margin-bottom: 10px;
-      text-align: center;
-    }
+  .in-title {
+    margin-bottom: 10px;
+    text-align: center;
   }
+}
+.title {
+  color: #28a745;
+  margin: 25px 0;
+}
 </style>
