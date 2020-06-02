@@ -4,9 +4,9 @@
     <b-container fluid>
       <b-row>
         <b-col v-for="note in notes" :key="note.noteId" sm="12" md="6" lg="4" xl="3">
-          <NoteComponent :note="note" />
+          <NoteComponent :note="note" @onDeleteNote="deleteNote" />
         </b-col>
-        <b-col sm="12" md="6" lg="4" xl="3">
+        <b-col sm="12" md="6" lg="4" xl="3" class="self">
           <div class="card">
             <div class="card-body">
               <AddNote @onAddNote="addNote" />
@@ -48,6 +48,10 @@ export default Vue.extend({
     addNote(note: Note) {
       // this.notes.push(note);
       this.$emit("onAddNoteFn", note);
+    },
+    deleteNote(note: Note) {
+      console.log(note);
+      this.$emit("onDeleteNoteFn", note);
     }
   }
 });
@@ -69,5 +73,9 @@ export default Vue.extend({
     box-shadow: 2px 2px 10px -2px #888;
     transition: all 0.3s ease-in-out;
   }
+}
+.self {
+  align-self: flex-start;
+  height: auto;
 }
 </style>

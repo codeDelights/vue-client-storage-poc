@@ -7,6 +7,7 @@
         placeholder="Type Note here..."
         @input="mixin_autoResize_resize"
         v-model="note.content"
+        ref="content"
       ></textarea>
       <b-button size="sm" variant="outline-success mt-3 butn" v-if="isAddingBool" @click="add">Save</b-button>
     </form>
@@ -39,6 +40,10 @@ export default Vue.extend({
       const note = { ...this.note };
       this.$emit("onAddNote", note);
       this.note = {} as Note;
+      (this.$refs.content as HTMLElement).style.height = "auto";
+      this.isAddingBool = false;
+      //@ts-ignore
+      // this.resize(78);
     }
   }
 });

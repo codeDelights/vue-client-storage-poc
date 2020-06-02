@@ -1,7 +1,7 @@
 <template>
   <div class="localStroage">
     <h2 class="text-center title">Welcome to MyNotes</h2>
-    <NotesHolder :notes="lsNotes" @onAddNoteFn="lsAddNote" />
+    <NotesHolder :notes="lsNotes" @onAddNoteFn="lsAddNote" @onDeleteNoteFn="lsDeleteNote" />
   </div>
 </template>
 
@@ -35,7 +35,11 @@ export default Vue.extend({
     getString() {
       this.refresh();
     },
-    clearString() {
+    lsDeleteNote(note: Note) {
+      let allNotes = [...lst.getItem(this.lsKey)];
+      allNotes = allNotes.filter(n => n.noteId !== note.noteId);
+      const toPush = JSON.stringify(allNotes);
+      lst.addItem(this.lsKey, toPush);
       this.refresh();
     },
     clearAll() {
