@@ -1,112 +1,57 @@
 p<template>
   <div class="localStroage">
-    <h1>NanoSQL</h1>
-    <div class="well save-string">
-      <h3 class="in-title">Save a Value</h3>
-      <label for="value">Value</label>
-      <input type="text" id="value" v-model="singleValue" />
-      <button @click="addItem">Save</button>
-      <hr />
-      <h3 class="in-title">Edit a Value</h3>
-      <label for="value2">Value</label>
-      <input type="text" id="value2" v-model="editItem.name" />
-      <button @click="updateItem">Update</button>
-    </div>
-    <hr />
-    <div class="well">
-      <button @click="getAllItems">Get All</button>
-      <ul v-for="(item, index) in localItems" :key="index">
-        <li>
-          <p>{{ item["name"] + " => " + item["status"] }}</p>
-          <div>
-            <span class="right" @click="editItemFn(item)">🖍</span>
-            <span class="right" @click="clearItem(item.$loki)">❌</span>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <h2 class="text-center title">LokiJS</h2>
+    <NotesHolder :notes="lkNotes" @onAddNoteFn="lkAddNote" @onDeleteNoteFn="lkDeleteNote" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import * as loki from "../storage/lokijs";
+import NotesHolder from "../components/NotesHolder.vue";
+import { Note } from "@/core/models/Note";
 
 export default Vue.extend({
+  components: {
+    NotesHolder
+  },
   data() {
     return {
-      singleValue: "",
-      editItem: {
-        $loki: null,
-        name: null,
-      },
-      localItems: [] as any[],
+      lkNotes: [] as Note[]
     };
   },
-  mounted() {
-    /* setTimeout(() => {
-      this.getAllItems();
-    }, 1000); */
-    /* this.getAllItems(); */
+  created() {
+    setTimeout(() => {
+      this.refresh();
+    }, 1000);
   },
   methods: {
-    addItem() {
-      const item = loki.addItem({ name: this.singleValue, status: false });
-      console.log(item);
-      this.getAllItems();
+    lkAddNote(note: Note) {
+      const item = loki.addItem(note);
+      this.refresh();
     },
-    getAllItems() {
-      this.localItems = loki.getAll();
-      console.log(this.localItems);
+    refresh() {
+      this.lkNotes = loki.getAll();
     },
     editItemFn(item: any) {
-      this.editItem = { ...item };
+      // this.editItem = { ...item };
     },
-    clearItem(id: number) {
-      const ritem = loki.clearItem(id);
-      console.log(ritem);
-      this.getAllItems();
+    lkDeleteNote(note: Note) {
+      const ritem = loki.clearItem(note.$loki);
+      this.refresh();
     },
     updateItem() {
-      const item = loki.updateItem(this.editItem.$loki, this.editItem.name);
-      console.log(item);
-      this.getAllItems();
-    },
-  },
+      // const item = loki.updateItem(this.editItem.$loki, this.editItem.name);
+      // console.log(item);
+      this.refresh();
+    }
+  }
 });
 </script>
 
 <style lang="scss" scoped>
-.well {
-  background-color: #ccc;
-  border: 1px solid #aaa;
-  padding: 20px;
-  height: auto;
-  width: 90%;
-  margin: 0 auto;
-  max-width: 500px;
-  text-align: left;
-
-  .in-title {
-    margin-bottom: 10px;
-    text-align: center;
-  }
-}
-ul li {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-
-  p {
-    margin: 0;
-  }
-}
-.right {
-  display: inline-block;
-  text-align: right;
-  padding: 5px;
-  cursor: pointer;
-  align-self: flex-end;
+.title {
+  color: #28a745;
+  margin: 25px 0;
 }
 </style>

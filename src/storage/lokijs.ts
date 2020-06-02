@@ -10,14 +10,15 @@ var db = new loki("quickstart.db", {
     autoload: true,
     autoloadCallback: databaseInitialize,
     autosave: true,
-    autosaveInterval: 4000
+    autosaveInterval: 100
 });
 var tasks: any;
-function databaseInitialize() {
+export function databaseInitialize() {
     tasks = db.getCollection("tasks");
     if (tasks === null) {
         tasks = db.addCollection("tasks");
     }
+    console.log(tasks);
 }
 
 export function addItem(doc: any) {

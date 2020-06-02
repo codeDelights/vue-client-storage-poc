@@ -1,6 +1,6 @@
 <template>
   <div class="localStroage">
-    <h2 class="text-center title">Welcome to MyNotes</h2>
+    <h2 class="text-center title">LocalStorage</h2>
     <NotesHolder :notes="lsNotes" @onAddNoteFn="lsAddNote" @onDeleteNoteFn="lsDeleteNote" />
   </div>
 </template>
@@ -55,21 +55,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.well {
-  background-color: #ccc;
-  border: 1px solid #aaa;
-  padding: 20px;
-  height: auto;
-  width: 90%;
-  margin: 0 auto;
-  max-width: 500px;
-  text-align: left;
-
-  .in-title {
-    margin-bottom: 10px;
-    text-align: center;
-  }
-}
 .title {
   color: #28a745;
   margin: 25px 0;

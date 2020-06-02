@@ -9,8 +9,10 @@ export function createDB() {
                 name: "todos",
                 model: {
                     "id:uuid": { pk: true, ai: true, },
-                    "name:string": {},
-                    "status:string": {}
+                    "title:string": {},
+                    "content:string": {},
+                    "createdAt:string": {},
+                    "noteId:uuid": { notNull: true }
                 }
             }
         ],

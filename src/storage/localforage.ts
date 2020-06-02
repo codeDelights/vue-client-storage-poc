@@ -1,13 +1,19 @@
 import * as localForage from "localforage";
 
-export function addItem (key: string, value: any) {
-    if ((key === null || key === '') || (value === null || value === '')) {
-        return Promise.reject("Key or Value Invalid");
+localForage.setDriver(localForage.INDEXEDDB);
+
+export function createStore(key: string) {
+    const isExists = localForage.getItem(key);
+    if (!isExists) {
+        localForage.setItem(key, []);
     }
+}
+
+export function addItem(key: string, value: any) {
     return localForage.setItem(key, value);
 }
 
-export function getItem (key: string): any {
+export function getItem(key: string): any {
     if (key === null || key === '') {
         return "Invalid Key"
     }

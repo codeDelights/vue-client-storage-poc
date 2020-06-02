@@ -3,7 +3,7 @@ import PouchDB from 'pouchdb';
 PouchDB.plugin(require('pouchdb-find'));
 
 const db = new PouchDB('vuedb')
-const remotedb = new PouchDB('http://localhost:5984/vuedb')
+// const remotedb = new PouchDB('http://localhost:5984/vuedb')
 const store: any = {}
 
 
