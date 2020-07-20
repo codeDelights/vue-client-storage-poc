@@ -12,7 +12,7 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
     "localforage": "^1.7.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "lokijs": "^1.5.8",
     "pouchdb": "^7.2.1",
     "pouchdb-find": "^7.2.1",
